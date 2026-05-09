@@ -5,6 +5,7 @@ import com.ecgplatform.api.model.EcgRecord;
 import com.ecgplatform.api.service.ClassifierService;
 import com.ecgplatform.api.service.EcgService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,42 +36,31 @@ public class EcgController {
     }
 
     /**
-     * Register a MIT-BIH record by ID so it can be classified.
+     * Register a MIT-BIH record for classification.
      * POST /api/v1/ecg/upload
-     * Body: { "recordId": "100", "userId": "user123" }
-     *
-     * userId will be extracted from JWT token in Day 11.
-     * recordId will be replaced by a real file upload + S3 in Day 12.
+     * Header: Authorization: Bearer <token>
+     * Body: { "recordId": "100" }
      */
     @PostMapping("/ecg/upload")
-    public ResponseEntity<EcgRecord> upload(@RequestBody Map<String, String> body) {
+    public ResponseEntity<?> upload(@RequestBody Map<String, String> body,
+                                    Authentication auth) {
         String recordId = body.get("recordId");
-        String userId   = body.get("userId");
-
         if (recordId == null || recordId.isBlank()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", "recordId required"));
         }
-        if (userId == null || userId.isBlank()) {
-            return ResponseEntity.badRequest().build();
-        }
-
+        String userId = (String) auth.getPrincipal();
         EcgRecord saved = ecgService.registerRecord(recordId, userId);
         return ResponseEntity.status(201).body(saved);
     }
 
     /**
-     * Trigger classification for a previously registered ECG record.
+     * Trigger classification for a registered ECG record.
      * POST /api/v1/ecg/{id}/classify
-     * Body: { "userId": "user123" }
+     * Header: Authorization: Bearer <token>
      */
     @PostMapping("/ecg/{id}/classify")
-    public ResponseEntity<?> classify(@PathVariable String id,
-                                      @RequestBody Map<String, String> body) {
-        String userId = body.get("userId");
-        if (userId == null || userId.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "userId required"));
-        }
-
+    public ResponseEntity<?> classify(@PathVariable String id, Authentication auth) {
+        String userId = (String) auth.getPrincipal();
         try {
             ClassificationResult result = ecgService.classify(id, userId);
             return ResponseEntity.ok(result);
@@ -82,8 +72,9 @@ public class EcgController {
     }
 
     /**
-     * Fetch the classification results for an ECG record.
+     * Fetch classification results for an ECG record.
      * GET /api/v1/ecg/{id}/results
+     * Header: Authorization: Bearer <token>
      */
     @GetMapping("/ecg/{id}/results")
     public ResponseEntity<?> getResults(@PathVariable String id) {
@@ -95,11 +86,13 @@ public class EcgController {
     }
 
     /**
-     * List all ECG records for a user.
-     * GET /api/v1/ecg?userId=user123
+     * List all ECG records for the authenticated user.
+     * GET /api/v1/ecg
+     * Header: Authorization: Bearer <token>
      */
     @GetMapping("/ecg")
-    public List<EcgRecord> listRecords(@RequestParam String userId) {
+    public List<EcgRecord> listRecords(Authentication auth) {
+        String userId = (String) auth.getPrincipal();
         return ecgService.listRecords(userId);
     }
 }
