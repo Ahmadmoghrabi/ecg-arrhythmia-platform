@@ -1,4 +1,7 @@
-data/mitdb/
+ml/data/mitdb/
 .DS_Store
 **/.DS_Store
-ml-classifier/models/*.pkl
+ml/models/*.pkl
+**/__pycache__/
+*.pyc
+.pytest_cache/
