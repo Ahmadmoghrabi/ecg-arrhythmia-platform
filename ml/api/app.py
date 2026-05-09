@@ -8,6 +8,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MODEL_PATH = PROJECT_ROOT / 'ml' / 'models' / 'ecg_classifier.pkl'
 
 LABEL_NAMES = ['N', 'S', 'V', 'F', 'Q']
+AAMI_MAP = {
+    'N': 0, 'L': 0, 'R': 0, 'e': 0, 'j': 0,
+    'A': 1, 'a': 1, 'J': 1, 'S': 1,
+    'V': 2, 'E': 2,
+    'F': 3,
+    '/': 4, 'f': 4, 'Q': 4, '?': 4,
+}
 LABEL_DESCRIPTIONS = {
     'N': 'Normal',
     'S': 'Supraventricular ectopic',
@@ -121,6 +128,59 @@ def predict_batch():
         results.append(build_prediction(label, proba))
 
     return jsonify({'results': results, 'count': len(results)})
+
+
+@app.route('/classify/record', methods=['POST'])
+def classify_record():
+    """
+    Classify every beat in a WFDB record.
+    Accepts {"record_path": "/absolute/path/to/record"} — no file extension.
+    Returns all beats + a summary with counts per AAMI class.
+    """
+    if model is None:
+        return jsonify({'error': 'Model not loaded'}), 503
+
+    data = request.get_json(silent=True)
+    if not data or 'record_path' not in data:
+        return jsonify({'error': '"record_path" is required'}), 400
+
+    try:
+        import wfdb
+        record = wfdb.rdrecord(data['record_path'])
+        annotation = wfdb.rdann(data['record_path'], 'atr')
+    except Exception as e:
+        return jsonify({'error': f'Could not read record: {str(e)}'}), 400
+
+    signal = record.p_signal[:, 0]
+    counts = {name: 0 for name in LABEL_NAMES}
+    beats = []
+
+    for sample, symbol in zip(annotation.sample, annotation.symbol):
+        if symbol not in AAMI_MAP:
+            continue
+        start, end = sample - 180, sample + 180
+        if start < 0 or end > len(signal):
+            continue
+        beat = signal[start:end]
+        features = extract_features(beat.tolist())
+        label = int(model.predict(features)[0])
+        proba = model.predict_proba(features)[0].tolist()
+        name = LABEL_NAMES[label]
+        counts[name] += 1
+        beats.append({
+            'sampleIndex': int(sample),
+            'trueSymbol': symbol,
+            **build_prediction(label, proba),
+        })
+
+    return jsonify({
+        'beats': beats,
+        'summary': {
+            'totalBeats': len(beats),
+            'countsByClass': counts,
+            'hasArrhythmia': any(counts[k] > 0 for k in ['S', 'V', 'F', 'Q']),
+        },
+    })
 
 
 if __name__ == '__main__':
