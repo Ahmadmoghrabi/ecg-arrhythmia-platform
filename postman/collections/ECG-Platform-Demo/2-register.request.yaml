@@ -13,3 +13,7 @@ body:
       "email": "demo@ecgplatform.com",
       "password": "securepass123"
     }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: 'pm.collectionVariables.set("token", pm.response.json().token)'

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'List ECG Records'
+method: GET
+url: '{{baseUrl}}/api/v1/ecg'
+order: 4000
+headers:
+  - key: Authorization
+    value: 'Bearer {{token}}'
