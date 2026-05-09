@@ -1,0 +1,11 @@
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/EcgApiApplication.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/controller/EcgController.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/model/ClassificationResult.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/model/EcgRecord.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/model/PredictRequest.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/model/PredictResponse.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/model/User.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/repository/ClassificationResultRepository.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/repository/EcgRecordRepository.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/repository/UserRepository.java
+/Users/ahmad/Documents/ecg-platform/backend/src/main/java/com/ecgplatform/api/service/ClassifierService.java

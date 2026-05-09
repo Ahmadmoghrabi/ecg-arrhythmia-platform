@@ -1,0 +1,14 @@
+com/ecgplatform/api/model/ClassificationResult$Summary.class
+com/ecgplatform/api/repository/UserRepository.class
+com/ecgplatform/api/EcgApiApplication.class
+com/ecgplatform/api/model/User.class
+com/ecgplatform/api/model/EcgRecord.class
+com/ecgplatform/api/model/PredictResponse$Probabilities.class
+com/ecgplatform/api/controller/EcgController.class
+com/ecgplatform/api/model/ClassificationResult.class
+com/ecgplatform/api/model/PredictResponse.class
+com/ecgplatform/api/model/PredictRequest.class
+com/ecgplatform/api/repository/EcgRecordRepository.class
+com/ecgplatform/api/repository/ClassificationResultRepository.class
+com/ecgplatform/api/model/ClassificationResult$BeatResult.class
+com/ecgplatform/api/service/ClassifierService.class
