@@ -1,0 +1,14 @@
+name: Globals
+values:
+  - key: apiUrl
+    value: 'http://localhost:8080'
+    enabled: true
+  - key: mlUrl
+    value: 'http://localhost:5001'
+    enabled: true
+  - key: token
+    value: ''
+    enabled: true
+  - key: ecgRecordId
+    value: ''
+    enabled: true

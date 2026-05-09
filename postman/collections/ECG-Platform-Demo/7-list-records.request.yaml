@@ -1,0 +1,8 @@
+$kind: http-request
+name: 7 — List My Records
+method: GET
+url: '{{apiUrl}}/api/v1/ecg'
+order: 7000
+headers:
+  - key: Authorization
+    value: 'Bearer {{token}}'

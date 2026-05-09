@@ -1,0 +1,5 @@
+$kind: collection
+name: ECG Platform
+variables:
+  - key: baseUrl
+    value: 'http://127.0.0.1:5001'

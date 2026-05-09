@@ -1,0 +1,8 @@
+$kind: http-request
+name: 6 — Get Results
+method: GET
+url: '{{apiUrl}}/api/v1/ecg/{{ecgRecordId}}/results'
+order: 6000
+headers:
+  - key: Authorization
+    value: 'Bearer {{token}}'
