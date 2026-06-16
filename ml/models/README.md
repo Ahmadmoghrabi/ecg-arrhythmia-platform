@@ -1,8 +1,13 @@
 # Models
 
-The trained model file (ecg_classifier.pkl) is not stored in git due to GitHub's 100MB file size limit.
+The trained model file (`ecg_classifier.pkl`) is not stored in git due to GitHub's 100 MB file size limit.
 
-To regenerate it, run:
-    python3 ml-classifier/src/save_model.py
+To regenerate it, run from the project root:
 
-This will retrain the Random Forest classifier on the MIT-BIH dataset and save the model locally.
+```bash
+cd ml/src && python3 save_model.py
+```
+
+This retrains the Random Forest classifier on the MIT-BIH dataset and saves the model to this directory.
+
+**Requires:** MIT-BIH records in `ml/data/mitdb/` (see main [README](../../README.md)).

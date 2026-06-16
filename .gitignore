@@ -1,4 +1,5 @@
 ml/data/mitdb/
+.claude/
 .DS_Store
 **/.DS_Store
 ml/models/*.pkl
