@@ -1,5 +1,0 @@
-$kind: http-request
-name: 1 — Health Check
-method: GET
-url: '{{apiUrl}}/api/v1/health'
-order: 1000

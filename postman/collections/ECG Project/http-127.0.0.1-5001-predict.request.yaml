@@ -1,8 +1,0 @@
-$kind: http-request
-name: http://127.0.0.1:5001/predict
-url: http://127.0.0.1:5001/predict
-method: POST
-body:
-  type: json
-  content: ""
-order: 1778005915969

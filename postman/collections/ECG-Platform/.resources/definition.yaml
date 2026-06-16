@@ -1,9 +1,6 @@
 $kind: collection
-name: 'ECG Platform'
+name: ECG Platform
 variables:
-  - key: baseUrl
-    value: 'http://localhost:8080'
-  - key: token
-    value: ''
-  - key: ecgRecordId
-    value: ''
+  apiUrl: http://localhost:8080
+  token: ""
+  ecgRecordId: ""

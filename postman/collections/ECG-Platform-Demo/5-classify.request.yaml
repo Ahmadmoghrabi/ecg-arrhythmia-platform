@@ -1,8 +1,0 @@
-$kind: http-request
-name: 5 — Classify ECG
-method: POST
-url: '{{apiUrl}}/api/v1/ecg/{{ecgRecordId}}/classify'
-order: 5000
-headers:
-  - key: Authorization
-    value: 'Bearer {{token}}'

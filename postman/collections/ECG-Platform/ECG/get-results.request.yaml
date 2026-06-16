@@ -1,7 +1,7 @@
 $kind: http-request
 name: 'Get ECG Results'
 method: GET
-url: '{{baseUrl}}/api/v1/ecg/{{ecgRecordId}}/results'
+url: '{{apiUrl}}/api/v1/ecg/{{ecgRecordId}}/results'
 order: 3000
 headers:
   - key: Authorization
